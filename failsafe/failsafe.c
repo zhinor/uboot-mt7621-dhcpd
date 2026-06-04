@@ -298,8 +298,18 @@ static void result_handler(enum httpd_uri_handler_status status,
 	}
 
 	if (status == HTTP_CB_CLOSED) {
-		if (upgrade_success)
+		if (upgrade_success) {
+			/*
+			 * Force-reset all TCP connections and reboot immediately.
+			 * tcp_close_all_conn() uses graceful FIN close, which
+			 * may never complete if the browser client is already
+			 * waiting on the JS side.  Without this direct reset
+			 * call, net_loop(TCP) never exits and the reset in
+			 * do_httpd() is unreachable.
+			 */
 			tcp_close_all_conn();
+			do_reset(NULL, 0, 0, NULL);
+		}
 	}
 }
 
