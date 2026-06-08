@@ -218,12 +218,19 @@ if [ ! -d "archive" ]; then
 	mkdir archive
 fi
 cat defconfig > archive/mt7621_${BOARD_TAG}_defconfig
+
+echo "======================================================================"
+echo "Copying output files..."
+echo "======================================================================"
+
 MD5SUMBIN=$(md5sum u-boot-mt7621.bin | awk '{print $1}')
 echo "u-boot-mt7621.bin md5sum: ${MD5SUMBIN}"
+echo "u-boot-mt7621.bin size: $(stat -c%s u-boot-mt7621.bin) bytes"
 mv u-boot-mt7621.bin archive/u-boot-mt7621_${BOARD_TAG}_md5-${MD5SUMBIN}.bin
 echo "Output:  archive/u-boot-mt7621_${BOARD_TAG}_md5-${MD5SUMBIN}.bin"
 MD5SUMIMG=$(md5sum u-boot.img | awk '{print $1}')
 echo "u-boot.img md5sum: ${MD5SUMIMG}"
+echo "u-boot.img size: $(stat -c%s u-boot.img) bytes"
 mv u-boot.img archive/u-boot_${BOARD_TAG}_md5-${MD5SUMIMG}.img
 echo "Output:  archive/u-boot_${BOARD_TAG}_md5-${MD5SUMIMG}.img"
 
