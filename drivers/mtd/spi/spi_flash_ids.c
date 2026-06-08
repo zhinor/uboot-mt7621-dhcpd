@@ -12,61 +12,6 @@
 
 #include "sf_internal.h"
 
-/* Compatibility layer for older tree that uses struct spi_flash_info and
- * flag names like RD_QUAD/RD_DUAL, etc. When this file is moved into the
- * older tree (renamed to spi_flash.c), the root headers define different
- * flag names and struct types. Define missing SPI_NOR_* names or map them
- * to the equivalent legacy names so this file requires minimal edits.
- */
-#ifndef SPI_NOR_DUAL_READ
-#define SPI_NOR_DUAL_READ RD_DUAL
-#endif
-#ifndef SPI_NOR_QUAD_READ
-#define SPI_NOR_QUAD_READ RD_QUAD
-#endif
-#ifndef SPI_NOR_OCTAL_READ
-#define SPI_NOR_OCTAL_READ BIT(8)
-#endif
-#ifndef SPI_NOR_OCTAL_DTR_READ
-#define SPI_NOR_OCTAL_DTR_READ SPI_NOR_OCTAL_READ
-#endif
-#ifndef SPI_NOR_HAS_LOCK
-#define SPI_NOR_HAS_LOCK BIT(9)
-#endif
-#ifndef SPI_NOR_HAS_TB
-#define SPI_NOR_HAS_TB SPI_NOR_HAS_LOCK
-#endif
-#ifndef SPI_NOR_HAS_SST26LOCK
-#define SPI_NOR_HAS_SST26LOCK SPI_NOR_HAS_LOCK
-#endif
-#ifndef SPI_NOR_4B_OPCODES
-#define SPI_NOR_4B_OPCODES BIT(10)
-#endif
-#ifndef SPI_NOR_NO_ERASE
-#define SPI_NOR_NO_ERASE BIT(11)
-#endif
-#ifndef SPI_NOR_NO_FR
-#define SPI_NOR_NO_FR BIT(12)
-#endif
-#ifndef SPI_NOR_SKIP_SFDP
-#define SPI_NOR_SKIP_SFDP BIT(13)
-#endif
-#ifndef SECT_4K_PMC
-#define SECT_4K_PMC SECT_4K
-#endif
-#ifndef USE_FSR
-#define USE_FSR E_FSR
-#endif
-#ifndef USE_CLSR
-#define USE_CLSR BIT(14)
-#endif
-#ifndef NO_CHIP_ERASE
-#define NO_CHIP_ERASE SPI_NOR_NO_ERASE
-#endif
-#ifndef SST_WRITE
-#define SST_WRITE SST_WR
-#endif
-
 /* Exclude chip names for SPL to save space */
 #if !CONFIG_IS_ENABLED(SPI_FLASH_TINY)
 #define INFO_NAME(_name) .name = _name,
@@ -116,9 +61,6 @@
  * disabled: CONFIG_SPI_FLASH_USE_4K_SECTORS.
  * For historical (and compatibility) reasons (before we got above config) some
  * old entries may be missing 4K flag.
- */
-/* Use legacy type/name when installed in older tree (renamed to spi_flash.c).
- * The older code expects 'struct spi_flash_info' and 'spi_flash_ids' symbol.
  */
 const struct spi_flash_info spi_flash_ids[] = {
 #ifdef CONFIG_SPI_FLASH_ATMEL		/* ATMEL */

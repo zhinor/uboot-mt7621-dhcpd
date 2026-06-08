@@ -237,30 +237,31 @@ struct spi_flash_info {
 	u16		page_size;
 
 	u16		flags;
-#define SECT_4K			BIT(0)	/* CMD_ERASE_4K works uniformly */
-#define E_FSR			BIT(1)	/* use flag status register for */
-#define SST_WR			BIT(2)	/* use SST byte/word programming */
-#define WR_QPP			BIT(3)	/* use Quad Page Program */
-#define RD_QUAD			BIT(4)	/* use Quad Read */
-#define RD_DUAL			BIT(5)	/* use Dual Read */
-#define RD_QUADIO		BIT(6)	/* use Quad IO Read */
-#define RD_DUALIO		BIT(7)	/* use Dual IO Read */
+#define SECT_4K				BIT(0)	/* CMD_ERASE_4K works uniformly */
+#define SECT_4K_PMC		SECT_4K	/* PMC 4K-erase variant (same opcode here) */
+#define USE_FSR				BIT(1)	/* use flag status register */
+#define E_FSR			USE_FSR
+#define SST_WRITE			BIT(2)	/* use SST byte/word programming */
+#define SST_WR			SST_WRITE
+#define WR_QPP				BIT(3)	/* use Quad Page Program */
+#define SPI_NOR_QUAD_READ	BIT(4)	/* chip supports Quad Read */
+#define RD_QUAD			SPI_NOR_QUAD_READ
+#define SPI_NOR_DUAL_READ	BIT(5)	/* chip supports Dual Read */
+#define RD_DUAL			SPI_NOR_DUAL_READ
+#define RD_QUADIO			BIT(6)	/* use Quad IO Read */
+#define RD_DUALIO			BIT(7)	/* use Dual IO Read */
 #define RD_FULL			(RD_QUAD | RD_DUAL | RD_QUADIO | RD_DUALIO)
-
-/* Extended compatibility flags for upstream spi-nor-ids entries */
-#define SPI_NOR_DUAL_READ	RD_DUAL
-#define SPI_NOR_QUAD_READ	RD_QUAD
-#define SPI_NOR_OCTAL_READ	BIT(8)
+#define SPI_NOR_OCTAL_READ	BIT(8)	/* chip supports Octal Read */
 #define SPI_NOR_OCTAL_DTR_READ	SPI_NOR_OCTAL_READ
-#define SPI_NOR_HAS_LOCK	BIT(9)
+#define SPI_NOR_HAS_LOCK	BIT(9)	/* chip supports lock/unlock via status reg */
 #define SPI_NOR_HAS_TB		SPI_NOR_HAS_LOCK
 #define SPI_NOR_HAS_SST26LOCK	SPI_NOR_HAS_LOCK
-#define SPI_NOR_4B_OPCODES	BIT(10)
-#define SPI_NOR_NO_ERASE	BIT(11)
-#define SPI_NOR_NO_FR		BIT(12)
-#define SPI_NOR_SKIP_SFDP	BIT(13)
-#define USE_CLSR			BIT(14)
-#define NO_CHIP_ERASE		BIT(15)
+#define SPI_NOR_4B_OPCODES	BIT(10)	/* use dedicated 4-byte address opcodes */
+#define SPI_NOR_NO_ERASE	BIT(11)	/* chip has no erase command */
+#define SPI_NOR_NO_FR		BIT(12)	/* chip cannot do fast read */
+#define SPI_NOR_SKIP_SFDP	BIT(13)	/* skip SFDP table parsing */
+#define USE_CLSR			BIT(14)	/* use CLSR command */
+#define NO_CHIP_ERASE		BIT(15)	/* chip has no chip-wide erase opcode */
 };
 
 extern const struct spi_flash_info spi_flash_ids[];
