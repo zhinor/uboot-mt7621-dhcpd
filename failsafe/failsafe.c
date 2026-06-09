@@ -383,13 +383,18 @@ int start_web_failsafe(void)
 
 	httpd_register_uri_handler(inst, "", &not_found_handler, NULL);
 
-	if (IS_ENABLED(CONFIG_MTK_DHCPD))
+	if (IS_ENABLED(CONFIG_MTK_DHCPD)) {
+		printf("[FAILSAFE] Starting DHCP server...\n");
 		mtk_dhcpd_start();
+		printf("[FAILSAFE] DHCP server started\n");
+	}
 
 	net_loop(TCP);
 
-	if (IS_ENABLED(CONFIG_MTK_DHCPD))
+	if (IS_ENABLED(CONFIG_MTK_DHCPD)) {
+		printf("[FAILSAFE] DHCP server stopped\n");
 		mtk_dhcpd_stop();
+	}
 
 	return 0;
 }
