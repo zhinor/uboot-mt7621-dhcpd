@@ -12,6 +12,15 @@ menuconfig WEBUI_FAILSAFE
 
 if WEBUI_FAILSAFE
 
+config FAILSAFE_LEGACY_UI
+	bool "Enable legacy failsafe Web UI"
+	default n
+	help
+	  Enable the legacy failsafe Web UI with simplified HTML pages
+	  (no i18n, no JavaScript-heavy UI). This replaces the modern
+	  full-featured Web UI with minimal pages for basic firmware
+	  recovery and initramfs boot operations.
+
 config WEBUI_FAILSAFE_ON_AUTOBOOT_FAIL
 	bool "Start Failsafe Web UI on autoboot failure"
 	default n
